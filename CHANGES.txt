@@ -1,0 +1,4 @@
+0.9.1
+=====
+
+  - Fail if part directory exists already.

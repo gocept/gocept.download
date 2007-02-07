@@ -3,13 +3,14 @@ from setuptools import setup, find_packages
 name = "gocept.download"
 setup(
     name = name,
-    version = "0.9",
+    version = "0.9.1",
     author = "Christian Theune",
     author_email = "ct@gocept.com",
     description = "zc.buildout recipe for downloading and extracting an archive.",
     long_description = open('README.txt').read(),
     license = "ZPL 2.1",
     keywords = "zope3 buildout",
+    classifiers = ["Framework :: Buildout"],
     url='http://svn.gocept.com/repos/gocept/'+name,
     zip_safe=False,
     packages = find_packages('src'),
