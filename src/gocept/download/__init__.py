@@ -59,10 +59,6 @@ class Recipe:
         if not os.path.isdir(download_dir):
             os.mkdir(download_dir)
 
-        # We fail if the location already exists, typically this means it
-        # is a broken installation.
-        os.mkdir(self.options['location'])
-
         # Step 1: Download the package (if not downloaded already) 
         download_filename = os.path.join(download_dir, self.filename)
         if not os.path.exists(download_filename):
@@ -102,6 +98,10 @@ class Recipe:
             base = os.path.join(extract_dir, top_level_contents[0])
         else:
             base = extract_dir
+
+        # We fail if the location already exists, typically this means it
+        # is a broken installation.
+        os.mkdir(self.options['location'])
 
         for filename in os.listdir(base):
             shutil.move(os.path.join(base, filename), os.path.join(self.options['location'], filename))
