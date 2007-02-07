@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 name = "gocept.download"
 setup(
     name = name,
-    version = "0.9.1",
+    version = "dev",
     author = "Christian Theune",
     author_email = "ct@gocept.com",
     description = "zc.buildout recipe for downloading and extracting an archive.",
@@ -12,6 +12,7 @@ setup(
     keywords = "zope3 buildout",
     classifiers = ["Framework :: Buildout"],
     url='http://svn.gocept.com/repos/gocept/'+name,
+    download_url='https://svn.gocept.com/repos/gocept/gocept.download/trunk#egg=gocept.download-dev',
     zip_safe=False,
     packages = find_packages('src'),
     include_package_data = True,
