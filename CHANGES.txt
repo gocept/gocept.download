@@ -1,3 +1,9 @@
+0.9.2
+=====
+
+  - Try to create part directory only after downloading and unpacking the
+    archive. This avoids an empty part directory if something goes wrong.
+
 0.9.1
 =====
 
