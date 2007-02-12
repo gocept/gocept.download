@@ -38,7 +38,7 @@ class Recipe:
         self.name = name
 
         buildout['buildout'].setdefault(
-            'download-directory', 
+            'download-directory',
             os.path.join(buildout['buildout']['directory'], 'downloads'))
 
         options['location'] = os.path.join(
@@ -59,7 +59,7 @@ class Recipe:
         if not os.path.isdir(download_dir):
             os.mkdir(download_dir)
 
-        # Step 1: Download the package (if not downloaded already) 
+        # Step 1: Download the package (if not downloaded already)
         download_filename = os.path.join(download_dir, self.filename)
         if not os.path.exists(download_filename):
             # XXX undefined behavior when file already exists
@@ -68,7 +68,7 @@ class Recipe:
 
         # Check MD5 sum
         if compute_md5sum(download_filename) != self.options['md5sum']:
-            raise ValueError("Invalid MD5 sum for downloaded file %r" % 
+            raise ValueError("Invalid MD5 sum for downloaded file %r" %
                              self.options['url'])
 
         # Step 2: Extract the package
