@@ -13,6 +13,7 @@
 ##############################################################################
 
 import os
+import os.path
 import urlparse
 import urllib
 import md5
@@ -29,6 +30,7 @@ class Recipe:
         url
         strip-top-level-dir
         md5sum
+        destination
 
     """
 
@@ -41,10 +43,11 @@ class Recipe:
             'download-directory',
             os.path.join(buildout['buildout']['directory'], 'downloads'))
 
-        options['location'] = os.path.join(
-            buildout['buildout']['parts-directory'],
-            self.name,
-            )
+        if not options.get('destination'):
+            options['location'] = os.path.join(
+                buildout['buildout']['parts-directory'],
+                self.name,
+                )
 
         options['bin-directory'] = buildout['buildout']['bin-directory']
         options.setdefault('strip-top-level-dir', 'true')
@@ -58,6 +61,18 @@ class Recipe:
         download_dir = self.buildout['buildout']['download-directory']
         if not os.path.isdir(download_dir):
             os.mkdir(download_dir)
+
+        destination = self.options.get('destination')
+        # Fail if a destination is given and is not an empty directory.
+        # Consider both None (destination option was not given) and ''
+        # (destination option was given, but with an empty value) for the
+        # destination to not be given.
+        if (destination and
+            os.path.exists(destination) and
+            (not os.path.isdir(destination) or os.listdir(destination))
+            ):
+            raise ValueError(
+                "Destination %s must be an empty directory." % destination)
 
         # Step 1: Download the package (if not downloaded already)
         download_filename = os.path.join(download_dir, self.filename)
@@ -99,15 +114,21 @@ class Recipe:
         else:
             base = extract_dir
 
-        # We fail if the location already exists, typically this means it
-        # is a broken installation.
-        os.mkdir(self.options['location'])
+        if destination is None:
+            # We fail if the location already exists, typically this means it
+            # is a broken installation.
+            destination = self.options['location']
+            os.mkdir(destination)
+            part_directories = [destination]
+        else:
+            part_directories = []
 
         for filename in os.listdir(base):
-            shutil.move(os.path.join(base, filename), os.path.join(self.options['location'], filename))
+            shutil.move(os.path.join(base, filename),
+                        os.path.join(destination, filename))
 
         shutil.rmtree(extract_dir)
-        return [self.options['location']]
+        return part_directories
 
 
 def compute_md5sum(filename):
