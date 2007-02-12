@@ -72,7 +72,7 @@ class Recipe:
                              self.options['url'])
 
         # Step 2: Extract the package
-        extract_dir = tempfile.mkdtemp()
+        extract_dir = tempfile.mkdtemp("buildout-" + self.name)
         is_ext = download_filename.endswith
         if is_ext('.tar.gz') or is_ext('.tgz'):
             call = ['tar', 'xzf', download_filename, '-C', extract_dir]
