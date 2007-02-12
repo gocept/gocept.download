@@ -77,7 +77,7 @@ class Recipe:
         if is_ext('.tar.gz') or is_ext('.tgz'):
             call = ['tar', 'xzf', download_filename, '-C', extract_dir]
         elif is_ext('.tar.bz2') or is_ext('.tbz2'):
-            call = ['tar', 'xzf', download_filename, '-C', extract_dir]
+            call = ['tar', 'xjf', download_filename, '-C', extract_dir]
         elif is_ext('.zip'):
             call = ['unzip', download_filename, '-d', extract_dir]
         else:
