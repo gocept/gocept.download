@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 name = "gocept.download"
 setup(
     name = name,
-    version = "dev",
+    version = "0.9.3",
     author = "Christian Theune",
     author_email = "ct@gocept.com",
     description = "zc.buildout recipe for downloading and extracting an archive.",
