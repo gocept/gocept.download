@@ -1,3 +1,15 @@
+0.9.3
+=====
+
+  - Added an option named "destination" to specify a directory to extract to.
+    If this option is given, its value must be an existent, empty directory,
+    and no part directory will be created. This is useful for extracting
+    source code to a temporary build directory, for example.
+
+  - Fixed tar.bz2 extraction.
+
+  - Temporary extract directory has a better name now to ease debugging.
+
 0.9.2
 =====
 
