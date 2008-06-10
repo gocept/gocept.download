@@ -21,3 +21,16 @@ Configuration options
 
 :destination:
     Where to put the extracted archive contents.
+
+:download-directory: (optional)
+    Where to put the downloaded archive.
+
+    This option uses a buildout option of the same name as a default if that
+    is specified.
+
+
+Caching
+=======
+
+The download directory, if given, acts as a cache. In addition,
+gocept.download takes advantage of zc.buildout's download cache.
