@@ -1,3 +1,19 @@
+0.9.4
+=====
+
+  - Copy downloaded files that are not archives of any known type to the
+    part's location.
+
+  - download-directory is now a part option that defaults to a buildout option
+    of the same name.
+
+  - Only create and use a directory for storing downloaded resources if the
+    download-directory option is specified.
+
+  - Take advantage of zc.buildout's download cache.
+
+  - Added tests.
+
 0.9.3
 =====
 
