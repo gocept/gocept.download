@@ -18,7 +18,7 @@ classifiers = [
 
 setup(
     name = name,
-    version = "dev",
+    version = "0.9.4",
     author = "Christian Theune",
     author_email = "ct@gocept.com",
     description = \
