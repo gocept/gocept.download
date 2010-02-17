@@ -1,3 +1,7 @@
+# Copyright (c) 2007-2010 gocept gmbh & co. kg
+# See also LICENSE.txt
+"""zc.buildout recipe for downloading and extracting an archive."""
+
 from setuptools import setup, find_packages
 
 
@@ -18,19 +22,15 @@ classifiers = [
 
 setup(
     name = name,
-    version = "dev",
+    version = "1.0dev",
     author = "Christian Theune",
     author_email = "ct@gocept.com",
-    description = \
-    "zc.buildout recipe for downloading and extracting an archive.",
+    description = __doc__.strip(),
     long_description = open("README.txt").read(),
     license = "ZPL 2.1",
     keywords = "buildout zc.buildout recipe download extract archive",
     classifiers = classifiers,
     url = "http://svn.gocept.com/repos/gocept/" + name,
-    download_url = \
-    "https://svn.gocept.com/repos/gocept/"
-    "%(name)s/trunk#egg=%(name)s-dev" % {"name": name},
     packages = find_packages("src"),
     include_package_data = True,
     package_dir = {"": "src"},
