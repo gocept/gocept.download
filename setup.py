@@ -22,7 +22,7 @@ classifiers = [
 
 setup(
     name = name,
-    version = "1.0dev",
+    version = '0.9.5',
     author = "Christian Theune",
     author_email = "ct@gocept.com",
     description = __doc__.strip(),
