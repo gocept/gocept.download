@@ -16,12 +16,16 @@ import os
 import os.path
 import urlparse
 import urllib
-import md5
 import tempfile
 import subprocess
 import shutil
 
 import zc.buildout.easy_install
+
+try:
+    from hashlib import md5
+except ImportError:
+    from md5 import new as md5
 
 
 class Recipe:
@@ -179,7 +183,7 @@ class Recipe:
 
 
 def compute_md5sum(filename):
-    hash = md5.new('')
+    hash = md5('')
     f = open(filename, 'rb')
     chunk = f.read(2**16)
     while chunk:
