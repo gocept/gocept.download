@@ -2,15 +2,12 @@
 # See also LICENSE.txt
 
 
+import doctest
 import unittest
-
-import zope.testing.doctest
-
 import zc.buildout.testing
 
 
-flags = (zope.testing.doctest.NORMALIZE_WHITESPACE |
-         zope.testing.doctest.ELLIPSIS)
+flags = (doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS)
 
 
 def setUp(test):
@@ -20,7 +17,7 @@ def setUp(test):
 
 def test_suite():
     return unittest.TestSuite((
-        zope.testing.doctest.DocFileSuite(
+        doctest.DocFileSuite(
         "README.txt",
         setUp=setUp,
         tearDown=zc.buildout.testing.buildoutTearDown,
