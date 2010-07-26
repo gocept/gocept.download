@@ -1,7 +1,7 @@
 0.9.5
 =====
 
-  - Fixed md5 computation on Windows.
+0.9.5 (2010-07-26)
 
   - Fixed deprecation warnings caused by imports of md5 (moved inside hashlib
     in newer Python versions) and doctest (deprecated in favour of the
