@@ -180,7 +180,7 @@ class Recipe:
 
 def compute_md5sum(filename):
     hash = md5.new('')
-    f = file(filename)
+    f = open(filename, 'rb')
     chunk = f.read(2**16)
     while chunk:
         hash.update(chunk)
