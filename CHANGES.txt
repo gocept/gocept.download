@@ -12,6 +12,8 @@ Change log for gocept.download
 0.9.5 (2010-07-26)
 ==================
 
+  - Fixed md5 computation on Windows.
+
   - Fixed deprecation warnings caused by imports of md5 (moved inside hashlib
     in newer Python versions) and doctest (deprecated in favour of the
     standard lib's version in newer zope.testing versions).
