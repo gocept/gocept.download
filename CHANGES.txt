@@ -1,6 +1,12 @@
 0.9.5
 =====
 
+1.0 (unreleased)
+----------------
+
+- Nothing changed yet.
+
+
 0.9.5 (2010-07-26)
 
   - Fixed deprecation warnings caused by imports of md5 (moved inside hashlib
