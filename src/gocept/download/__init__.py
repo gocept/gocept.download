@@ -1,23 +1,15 @@
-# Copyright (c) 2007-2010 gocept gmbh & co. kg
+# Copyright (c) 2007-2011 gocept gmbh & co. kg
 # See also LICENSE.txt
 
 import os
 import os.path
-import urlparse
-import urllib
 import tempfile
 import subprocess
 import shutil
-
-import zc.buildout.easy_install
-
-try:
-    from hashlib import md5
-except ImportError:
-    from md5 import new as md5
+import zc.buildout.download
 
 
-class Recipe:
+class Recipe(object):
     """Recipe that downloads a package from the net and unpacks it.
 
     Configuration options:
@@ -35,9 +27,6 @@ class Recipe:
         self.buildout = buildout
         self.name = name
 
-        options.setdefault('download-directory',
-                           buildout['buildout'].get('download-directory', ''))
-
         if not options.get('destination'):
             options['location'] = os.path.join(
                 buildout['buildout']['parts-directory'],
@@ -47,7 +36,9 @@ class Recipe:
         options['bin-directory'] = buildout['buildout']['bin-directory']
         options.setdefault('strip-top-level-dir', 'true')
 
-        self.filename = urlparse.urlparse(options['url'])[2].split('/')[-1]
+        self.download_utility = zc.buildout.download.Download(
+            options=buildout['buildout'])
+        self.filename = self.download_utility.filename(options['url'])
 
         self.remove_after_install = []
 
@@ -69,11 +60,6 @@ class Recipe:
 
         # Step 1: Download the package (if not downloaded already)
         download_filename = self.download()
-
-        # Check MD5 sum
-        if compute_md5sum(download_filename) != self.options['md5sum']:
-            raise ValueError("Invalid MD5 sum for downloaded file %r" %
-                             self.options['url'])
 
         # Step 2: Extract the package if the file is an archive
         extract_dir = tempfile.mkdtemp("buildout-" + self.name)
@@ -126,12 +112,6 @@ class Recipe:
         return part_directories
 
     def download(self):
-        # XXX undefined behavior when file already exists
-        # XXX watch out for offline flag
-
-        # If a download directory is given, the file will ultimately be placed
-        # in it. If the file already exists there, we are finished.
-        filename = None
         download_dir = self.options.get('download-directory')
         if download_dir:
             download_dir = os.path.join(
@@ -141,41 +121,9 @@ class Recipe:
             filename = os.path.join(download_dir, self.filename)
             if os.path.exists(filename):
                 return filename
+        else:
+            filename = None
 
-        # If a download cache is being used, we either take the file from it
-        # (copying to the download directory first if there is one) or
-        # remember to place a copy in the cache later.
-        cache_filename = None
-        cache_dir = zc.buildout.easy_install.download_cache()
-        if cache_dir:
-            cache_filename = os.path.join(cache_dir, self.filename)
-            if os.path.exists(cache_filename):
-                if filename:
-                    shutil.copy(cache_filename, filename)
-                return cache_filename
-
-        # We really need to download the resource. For simplicity and to avoid
-        # partial downloads littering the cache, we download it to a temporary
-        # file, copy it to the download directory and the download cache as
-        # needed and always return the temporary file to the installer.
-        temp_dir = tempfile.mkdtemp()
-        self.remove_after_install.append(temp_dir)
-
-        download_filename = os.path.join(temp_dir, self.filename)
-        urllib.urlretrieve(self.options['url'], download_filename)
-
-        if filename:
-            shutil.copy(download_filename, filename)
-        if cache_filename:
-            shutil.copy(download_filename, cache_filename)
-        return download_filename
-
-
-def compute_md5sum(filename):
-    hash = md5('')
-    f = open(filename, 'rb')
-    chunk = f.read(2**16)
-    while chunk:
-        hash.update(chunk)
-        chunk = f.read(2**16)
-    return hash.hexdigest()
+        path, is_temp = self.download_utility(
+            self.options['url'], self.options.get('md5sum'), filename)
+        return path

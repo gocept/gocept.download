@@ -6,7 +6,8 @@ Change log for gocept.download
 1.0 (unreleased)
 ================
 
-- Nothing changed yet.
+  - Use zc.buildout's download utility instead of our own logic for
+    downloading and caching resources.
 
 
 0.9.5 (2010-07-26)

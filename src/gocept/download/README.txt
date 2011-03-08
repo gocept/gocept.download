@@ -94,8 +94,8 @@ create one:
     >>> download_cache = tmpdir("download-cache")
     >>> ls(download_cache)
 
-The downloaded file will now be placed in the download cache in addition to
-the locations seen so far:
+We reset our resource and buildout and configure the latter to have a part
+that downloads the resource to the download directory, using the cache:
 
     >>> write(resource, "foo")
     >>> remove("parts", "download")
@@ -121,13 +121,15 @@ the locations seen so far:
     Uninstalling download.
     Installing download.
 
+The downloaded file will now be placed in the download cache in addition to
+the locations seen so far (the "dist" directory being created for buildout's
+own needs):
+
     >>> ls(download_cache)
     d  dist
-
-    >>> ls(download_cache, "dist")
     -  resource
 
-    >>> cat(download_cache, "dist", "resource")
+    >>> cat(download_cache, "resource")
     foo
 
     >>> cat("download-directory", "resource")
@@ -147,7 +149,7 @@ download cache:
     Uninstalling download.
     Installing download.
 
-    >>> cat(download_cache, "dist", "resource")
+    >>> cat(download_cache, "resource")
     foo
 
     >>> cat("download-directory", "resource")
