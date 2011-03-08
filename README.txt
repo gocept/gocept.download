@@ -25,9 +25,6 @@ Configuration options
 :download-directory: (optional)
     Where to put the downloaded archive.
 
-    This option uses a buildout option of the same name as a default if that
-    is specified.
-
 
 Caching
 =======
