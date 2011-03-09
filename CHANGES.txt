@@ -7,7 +7,7 @@ Change log for gocept.download
 ================
 
   - Use zc.buildout's download utility instead of our own logic for
-    downloading and caching resources.
+    downloading and caching resources. MD5 checksums are now optional.
 
 
 0.9.5 (2010-07-26)
