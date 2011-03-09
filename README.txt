@@ -16,7 +16,7 @@ Configuration options
     Whether to remove the top-level directory from the extracted archive
     contents.
 
-:md5sum:
+:md5sum: (optional)
     MD5 checksum of the archive.
 
 :destination:
