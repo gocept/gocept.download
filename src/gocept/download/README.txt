@@ -5,15 +5,39 @@ gocept.download - A zc.buildout recipe to download and extract an archive
 Downloading a file
 ==================
 
-The gocept.download recipe downloads a resource from a URL and verifies its
-MD5 checksum. If the file isn't an archive of a known type, it is simply
-placed in the buildout part's location:
+The gocept.download recipe downloads a resource from a URL. If the file isn't
+an archive of a known type, it is simply placed in the buildout part's
+location:
 
     >>> import os.path
-    >>> import md5
 
     >>> resource = os.path.join(tmpdir("server"), "resource")
     >>> write(resource, "foo")
+
+    >>> write("buildout.cfg", """
+    ... [buildout]
+    ... parts = download
+    ...
+    ... [download]
+    ... recipe = gocept.download
+    ... url = file://%(resource)s
+    ...
+    ... """ % {"resource": resource}
+    ... )
+
+    >>> print system(buildout),
+    Installing download.
+
+    >>> ls("parts", "download")
+    -  resource
+
+    >>> cat("parts", "download", "resource")
+    foo
+
+We can optionally specify an MD5 checksum for the resource. If a checksum is
+given, the downloaded content must match:
+
+    >>> import md5
 
     >>> write("buildout.cfg", """
     ... [buildout]
@@ -29,13 +53,30 @@ placed in the buildout part's location:
     ... )
 
     >>> print system(buildout),
+    Uninstalling download.
     Installing download.
 
-    >>> ls("parts", "download")
-    -  resource
+If the content doesn't match the checksum, an error is raised:
 
-    >>> cat("parts", "download", "resource")
-    foo
+    >>> write("buildout.cfg", """
+    ... [buildout]
+    ... parts = download
+    ...
+    ... [download]
+    ... recipe = gocept.download
+    ... url = file://%(resource)s
+    ... md5sum = %(md5sum)s
+    ...
+    ... """ % {"resource": resource,
+    ...        "md5sum": md5.new("bar").hexdigest()}
+    ... )
+
+    >>> print system(buildout),
+    Uninstalling download.
+    Installing download.
+    While:
+      Installing download.
+    Error: MD5 checksum mismatch for local resource at '/.../server/resource'.
 
 We can specify a download directory into which the recipe will place a copy of
 the downloaded file. This allows, for example, to create a distribution
@@ -58,7 +99,6 @@ relative to the buildout directory:
     ... )
 
     >>> print system(buildout),
-    Uninstalling download.
     Installing download.
 
     >>> ls("download-directory")
