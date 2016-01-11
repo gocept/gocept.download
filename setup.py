@@ -1,5 +1,3 @@
-# Copyright (c) 2007-2010 gocept gmbh & co. kg
-# See also LICENSE.txt
 """zc.buildout recipe for downloading and extracting an archive."""
 
 from setuptools import setup, find_packages
@@ -30,7 +28,7 @@ setup(
     license = "ZPL 2.1",
     keywords = "buildout zc.buildout recipe download extract archive",
     classifiers = classifiers,
-    url = "http://svn.gocept.com/repos/gocept/" + name,
+    url = "https://bitbucket.org/gocept/%s/" % name,
     packages = find_packages("src"),
     include_package_data = True,
     package_dir = {"": "src"},
